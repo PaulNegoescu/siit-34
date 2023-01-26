@@ -18,14 +18,68 @@ const o = {
 
 // h1.style.marginLeft = '60px';
 
-const display = document.querySelector('[data-counter-display]');
-const buttons = document.querySelectorAll('[data-counter-button]');
+function counter() {
+  const display = document.querySelector('[data-counter-display]');
+  const buttons = document.querySelectorAll('[data-counter-button]');
 
-buttons[0].addEventListener('click', handleClick);
+  // buttons[0].addEventListener('click', handleClick);
+  // buttons[1].addEventListener('click', handleClick);
+  // buttons[2].addEventListener('click', handleClick);
 
-let count = 0;
+  for (const button of buttons) {
+    button.addEventListener('click', handleClick);
+  }
 
-function handleClick() {
-  count--;
-  display.innerText = count;
+  // buttons.forEach((button) => button.addEventListener('click', handleClick));
+
+  const initialCount = 0;
+  let count = initialCount;
+  updateHtml();
+
+  function handleClick(e) {
+    const which = e.target.dataset.counterButton;
+    switch (which) {
+      case 'increment': {
+        count++;
+        break;
+      }
+      case 'decrement': {
+        count--;
+        break;
+      }
+      case 'reset': {
+        count = initialCount;
+        break;
+      }
+      default: {
+        // console.error(`The value "${which}" provided is not valid`);
+        count += Number(which);
+        break;
+      }
+    }
+    // count += value;
+    updateHtml();
+  }
+
+  function updateHtml() {
+    display.innerText = count;
+    if (count > 0) {
+      //sa se aplice clasa positive
+      display.classList.add('positive');
+    } else if (count < 0) {
+      //sa se aplice clasa negative
+      display.classList.add('negative');
+    } else {
+      //sa se scoata toate clasele
+      display.classList.remove('positive', 'negative');
+    }
+  }
 }
+
+counter();
+
+// IIFE - Immediately Invoked Function Expression
+(function () {
+  // tot codul
+  console.log('ceva');
+})();
