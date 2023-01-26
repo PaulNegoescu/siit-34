@@ -63,15 +63,14 @@ function counter() {
 
   function updateHtml() {
     display.innerText = count;
+
+    display.classList.remove('positive', 'negative');
     if (count > 0) {
       //sa se aplice clasa positive
       display.classList.add('positive');
     } else if (count < 0) {
       //sa se aplice clasa negative
       display.classList.add('negative');
-    } else {
-      //sa se scoata toate clasele
-      display.classList.remove('positive', 'negative');
     }
   }
 }
@@ -81,5 +80,8 @@ counter();
 // IIFE - Immediately Invoked Function Expression
 (function () {
   // tot codul
-  console.log('ceva');
+  function getRandomNumber(min, max) {
+    return Math.floor(Math.random() * (max - min + 1) + min);
+  }
+  console.log(getRandomNumber(1, 3));
 })();
