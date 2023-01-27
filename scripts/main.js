@@ -40,6 +40,7 @@ function counter() {
     const which = e.target.dataset.counterButton;
     switch (which) {
       case 'increment': {
+        // increment?
         count++;
         break;
       }
