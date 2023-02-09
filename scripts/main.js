@@ -1,3 +1,7 @@
+const baseUrl = 'https://api.openweathermap.org/';
+const apiKeyUrlPart = 'appid=c7da641777760054e5ca6164eb47580a';
+const weatherApiEndpoint = 'data/2.5/weather';
+
 const searchForm = document.querySelector('[data-search-form]');
 const tempDisplay = document.querySelector('[data-temp]');
 const weatherIcon = document.querySelector('[data-icon]');
@@ -34,21 +38,21 @@ function handleGeoSuccess(geoPosition) {
 
 function getWeatherByCoords(lat, lon) {
   const promise = fetch(
-    `https://api.openweathermap.org/data/2.5/weather?lat=${lat}&lon=${lon}&appid=c7da641777760054e5ca6164eb47580a&units=metric`
+    `${baseUrl}/${weatherApiEndpoint}?lat=${lat}&lon=${lon}&units=metric&${apiKeyUrlPart}`
   );
 
-  handelServerResponse(promise);
+  handleServerResponse(promise);
 }
 
 function getWeatherByCity(city = 'Brasov') {
   const promise = fetch(
-    `https://api.openweathermap.org/data/2.5/weather?q=${city},RO&appid=c7da641777760054e5ca6164eb47580a&units=metric`
+    `${baseUrl}/${weatherApiEndpoint}?q=${city},RO&units=metric&${apiKeyUrlPart}`
   );
 
-  handelServerResponse(promise);
+  handleServerResponse(promise);
 }
 
-function handelServerResponse(promise) {
+function handleServerResponse(promise) {
   promise
     .then((resp) => {
       if (resp.ok === false) {
