@@ -1,0 +1,19 @@
+{
+  "users": [
+    {
+      "id": 1,
+      "firstName": "Paul",
+      "lastName": "Negoescu",
+      "email": "p@p.com",
+      "password": "asddasdasd"
+    }
+  ],
+  "todos": [
+    {
+      "id": 1,
+      "title": "Buy milk",
+      "completed": false,
+      "userId": 1
+    }
+  ]
+}
