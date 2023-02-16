@@ -5,6 +5,7 @@
 
   form.addEventListener('submit', handleAddTodo);
   list.addEventListener('click', handleDeleteTodo);
+  list.addEventListener('change', handleTodoUpdate);
 
   async function handleAddTodo(e) {
     e.preventDefault();
@@ -34,15 +35,44 @@
 
   function buildHtmlItem(todo) {
     const item = document.createElement('li');
-    item.textContent = todo.title;
-
+    const label = document.createElement('label');
+    const check = document.createElement('input');
     const deleteBtn = document.createElement('button');
+
+    item.append(check, label, deleteBtn);
+    // label.append(check, todo.title);
+    label.textContent = todo.title;
+    label.htmlFor = 'completed' + todo.id;
+    check.id = 'completed' + todo.id;
+    check.type = 'checkbox';
+    check.checked = todo.completed;
+    check.dataset.todoId = todo.id;
+
     deleteBtn.innerHTML = '&times;';
     deleteBtn.dataset.deleteTodo = todo.id;
     deleteBtn.classList.add('btn', 'btn-delete');
-    item.append(deleteBtn);
 
     return item;
+  }
+
+  function handleTodoUpdate(e) {
+    const todoId = e.target.dataset.todoId;
+
+    if (!todoId) {
+      return;
+    }
+
+    // console.log(e.target.checked);
+
+    fetch(`${baseUrl}/todos/${todoId}`, {
+      method: 'PATCH',
+      body: JSON.stringify({
+        completed: e.target.checked,
+      }),
+      headers: {
+        'Content-type': 'application/json',
+      },
+    }).then((res) => res.json());
   }
 
   function renderHtml(item) {
