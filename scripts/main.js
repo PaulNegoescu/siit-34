@@ -125,6 +125,11 @@ console.log(employee2);
 // test(a);
 // console.log(a);
 
+const obj1 = { test: 'Paul' };
+console.log(obj1);
+obj1.test = 'Andrei';
+obj1.prop = 3;
+
 class Whatever {}
 
 console.log(typeof Whatever);
