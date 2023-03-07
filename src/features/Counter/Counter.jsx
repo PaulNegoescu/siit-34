@@ -1,18 +1,13 @@
 import clsx from 'clsx';
 import { useState } from 'react';
-import './Counter.css';
+import styles from './Counter.module.css';
 
 export function Counter({ initialCount }) {
   const [count, setCount] = useState(initialCount);
-  let outputClassName = clsx();
-
-  if (count > 0) {
-    outputClassName = 'positive';
-  }
-
-  if (count < 0) {
-    outputClassName = 'negative';
-  }
+  let outputClassName = clsx({
+    [styles['posi-tive']]: count > 0,
+    [styles.negative]: count < 0,
+  });
 
   function handleButtonClick(diff) {
     setCount(count + diff);
@@ -29,11 +24,21 @@ export function Counter({ initialCount }) {
         <output className={outputClassName}>{count}</output>
       </p>
       <p>
-        <button onClick={() => handleButtonClick(-5)}>-5</button>
-        <button onClick={() => handleButtonClick(-1)}>-</button>
-        <button onClick={handleReset}>Reset</button>
-        <button onClick={() => handleButtonClick(1)}>+</button>
-        <button onClick={() => handleButtonClick(5)}>+5</button>
+        <button type="button" onClick={() => handleButtonClick(-5)}>
+          -5
+        </button>
+        <button type="button" onClick={() => handleButtonClick(-1)}>
+          -
+        </button>
+        <button type="button" onClick={handleReset}>
+          Reset
+        </button>
+        <button type="button" onClick={() => handleButtonClick(1)}>
+          +
+        </button>
+        <button type="button" onClick={() => handleButtonClick(5)}>
+          +5
+        </button>
       </p>
     </div>
   );

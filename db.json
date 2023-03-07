@@ -1,0 +1,25 @@
+{
+  "users": [
+    {
+      "id": 1,
+      "firstName": "Paul",
+      "lastName": "Negoescu",
+      "email": "p@p.com",
+      "password": "bla"
+    }
+  ],
+  "todos": [
+    {
+      "id": 1,
+      "title": "Buy Milk",
+      "userId": 1,
+      "completed": false
+    },
+    {
+      "id": 2,
+      "title": "Take cat out for a walk",
+      "userId": 1,
+      "completed": true
+    }
+  ]
+}
