@@ -1,11 +1,21 @@
-export function TodoItem({ data }) {
+import { useState } from 'react';
+
+export function TodoItem({ data, onDeleteTodo, onUpdateTodoStatus }) {
   return (
     <li>
       <label>
-        <input type="checkbox" defaultChecked={data.completed} />
+        <input
+          type="checkbox"
+          defaultChecked={data.completed}
+          onChange={(e) =>
+            onUpdateTodoStatus(data.id, Boolean(e.target.checked))
+          }
+        />
         {data.title}
       </label>
-      <button type="button">&times;</button>
+      <button type="button" onClick={() => onDeleteTodo(data.id)}>
+        &times;
+      </button>
     </li>
   );
 }

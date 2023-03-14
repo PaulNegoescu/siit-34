@@ -1,0 +1,9 @@
+.error-message,
+.has-error label {
+  color: #c00;
+}
+
+.has-error input {
+  border: 1px solid #c00;
+  border-radius: 2px;
+}
