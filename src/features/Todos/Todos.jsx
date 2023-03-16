@@ -1,4 +1,5 @@
 import { useEffect, useRef, useState } from 'react';
+import { useAuthContext } from '../Auth/Auth.context';
 import { TodoItem } from './TodoItem';
 
 import styles from './Todos.module.css';
@@ -9,8 +10,14 @@ export function Todos() {
   const [error, setError] = useState('');
   const titleInputRef = useRef();
 
+  const { token, user } = useAuthContext();
+
   useEffect(() => {
-    fetch('http://localhost:3000/todos')
+    fetch(`http://localhost:3000/todos?userId=${user.id}`, {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    })
       .then((res) => res.json())
       .then((data) => {
         setTodos(data);
@@ -32,7 +39,7 @@ export function Todos() {
 
     const newTodo = {
       title: newTodoTitle,
-      userId: 1,
+      userId: user.id,
       completed: false,
     };
 
@@ -41,6 +48,7 @@ export function Todos() {
       body: JSON.stringify(newTodo),
       headers: {
         'Content-type': 'application/json',
+        Authorization: `Bearer ${token}`,
       },
     }).then((res) => res.json());
 
@@ -53,6 +61,9 @@ export function Todos() {
   async function handleDeleteTodo(todoId) {
     await fetch(`http://localhost:3000/todos/${todoId}`, {
       method: 'DELETE',
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
     });
 
     const updatedTodos = todos.filter((todo) => todo.id !== todoId);
@@ -67,6 +78,7 @@ export function Todos() {
       }),
       headers: {
         'Content-type': 'application/json',
+        Authorization: `Bearer ${token}`,
       },
     });
 

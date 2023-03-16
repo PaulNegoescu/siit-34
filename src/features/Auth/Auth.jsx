@@ -1,6 +1,8 @@
 import clsx from 'clsx';
 import { useState } from 'react';
+import { useLocation } from 'react-router-dom';
 import { GlobalMessage } from '../../components/GlobalMessage/GlobalMessage';
+import { useAuthContext } from './Auth.context';
 import styles from './Auth.module.css';
 
 export function Auth() {
@@ -25,6 +27,10 @@ export function Auth() {
     type: 'error',
   });
 
+  const { login, token } = useAuthContext();
+  const { pathname } = useLocation();
+  const isLogin = pathname === '/login';
+
   function isFormValid() {
     let isValid = true;
     const newErrors = { ...errors };
@@ -39,19 +45,21 @@ export function Auth() {
       newErrors.password = 'Please type a valid password.';
     }
 
-    if (values.retype_password !== values.password) {
-      isValid = false;
-      newErrors.retype_password = 'The two passwords did not match.';
-    }
+    if (!isLogin) {
+      if (values.retype_password !== values.password) {
+        isValid = false;
+        newErrors.retype_password = 'The two passwords did not match.';
+      }
 
-    if (!values.fName.trim()) {
-      isValid = false;
-      newErrors.fName = 'Please type a valid first name.';
-    }
+      if (!values.fName.trim()) {
+        isValid = false;
+        newErrors.fName = 'Please type a valid first name.';
+      }
 
-    if (!values.lName.trim()) {
-      isValid = false;
-      newErrors.lName = 'Please type a valid last name.';
+      if (!values.lName.trim()) {
+        isValid = false;
+        newErrors.lName = 'Please type a valid last name.';
+      }
     }
 
     setErrors(newErrors);
@@ -69,38 +77,55 @@ export function Auth() {
     setErrors({ ...errors, [e.target.name]: '' });
   }
 
-  function handleSubmit(e) {
+  async function handleSubmit(e) {
     e.preventDefault();
 
     if (!isFormValid()) {
       return;
     }
 
-    const userObj = { ...values };
-    delete userObj.retype_password;
+    let userObj;
+    if (isLogin) {
+      userObj = {
+        email: values.email,
+        password: values.password,
+      };
+    } else {
+      userObj = { ...values };
+      delete userObj.retype_password;
+    }
 
-    fetch('http://localhost:3000/register', {
-      method: 'POST',
-      body: JSON.stringify(userObj),
-      headers: {
-        'Content-type': 'application/json',
-      },
-    }).then(async (res) => {
-      if (res.ok === false) {
-        const errorMessage = await res.json();
-        setGlobalMessage({ message: errorMessage, type: 'error' });
-      } else {
-        setGlobalMessage({
-          message: 'User created successfully',
-          type: 'success',
-        });
+    const res = await fetch(
+      `http://localhost:3000/${isLogin ? 'login' : 'register'}`,
+      {
+        method: 'POST',
+        body: JSON.stringify(userObj),
+        headers: {
+          'Content-type': 'application/json',
+        },
       }
+    );
+
+    if (res.ok === false) {
+      const errorMessage = await res.json();
+      setGlobalMessage({ message: errorMessage, type: 'error' });
+      return;
+    }
+
+    setGlobalMessage({
+      message: isLogin
+        ? 'You logged in successfully'
+        : 'User created successfully',
+      type: 'success',
     });
+
+    const data = await res.json();
+    login(data.accessToken, data.user);
   }
 
   return (
     <>
-      <h1>Register</h1>
+      <h1>{isLogin ? 'Login' : 'Register'}</h1>
       <GlobalMessage
         type={globalMessage.type}
         onMessageClosed={() => setGlobalMessage({ message: '', type: 'error' })}
@@ -135,47 +160,58 @@ export function Auth() {
         {errors.password && (
           <p className={styles['error-message']}>{errors.password}</p>
         )}
-        <p className={clsx({ [styles['has-error']]: errors.retype_password })}>
-          <label htmlFor="retype_password">Retype Password</label>
-          <input
-            type="password"
-            id="retype_password"
-            name="retype_password"
-            value={values.retype_password}
-            onChange={handleInputChange}
-          />
-        </p>
-        {errors.retype_password && (
-          <p className={styles['error-message']}>{errors.retype_password}</p>
-        )}
-        <p className={clsx({ [styles['has-error']]: errors.fName })}>
-          <label htmlFor="fName">First Name</label>
-          <input
-            type="text"
-            id="fName"
-            name="fName"
-            value={values.fName}
-            onChange={handleInputChange}
-          />
-        </p>
-        {errors.fName && (
-          <p className={styles['error-message']}>{errors.fName}</p>
-        )}
-        <p className={clsx({ [styles['has-error']]: errors.lName })}>
-          <label htmlFor="lName">Last Name</label>
-          <input
-            type="text"
-            id="lName"
-            name="lName"
-            value={values.lName}
-            onChange={handleInputChange}
-          />
-        </p>
-        {errors.lName && (
-          <p className={styles['error-message']}>{errors.lName}</p>
+
+        {!isLogin && (
+          <>
+            <p
+              className={clsx({
+                [styles['has-error']]: errors.retype_password,
+              })}
+            >
+              <label htmlFor="retype_password">Retype Password</label>
+              <input
+                type="password"
+                id="retype_password"
+                name="retype_password"
+                value={values.retype_password}
+                onChange={handleInputChange}
+              />
+            </p>
+            {errors.retype_password && (
+              <p className={styles['error-message']}>
+                {errors.retype_password}
+              </p>
+            )}
+            <p className={clsx({ [styles['has-error']]: errors.fName })}>
+              <label htmlFor="fName">First Name</label>
+              <input
+                type="text"
+                id="fName"
+                name="fName"
+                value={values.fName}
+                onChange={handleInputChange}
+              />
+            </p>
+            {errors.fName && (
+              <p className={styles['error-message']}>{errors.fName}</p>
+            )}
+            <p className={clsx({ [styles['has-error']]: errors.lName })}>
+              <label htmlFor="lName">Last Name</label>
+              <input
+                type="text"
+                id="lName"
+                name="lName"
+                value={values.lName}
+                onChange={handleInputChange}
+              />
+            </p>
+            {errors.lName && (
+              <p className={styles['error-message']}>{errors.lName}</p>
+            )}
+          </>
         )}
         <p>
-          <button type="submit">Register</button>
+          <button type="submit">{isLogin ? 'Login' : 'Register'}</button>
         </p>
       </form>
     </>

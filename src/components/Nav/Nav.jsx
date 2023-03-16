@@ -1,13 +1,16 @@
+import clsx from 'clsx';
 import { NavLink } from 'react-router-dom';
+import { useAuthContext } from '../../features/Auth/Auth.context';
 import styles from './Nav.module.css';
 
 export function Nav() {
+  const { user, logout } = useAuthContext();
   return (
     <nav>
       <menu>
         <li>
           <NavLink
-            className={({ isActive }) => isActive && styles.active}
+            className={({ isActive }) => clsx({ [styles.active]: isActive })}
             to="/"
           >
             Home
@@ -15,7 +18,7 @@ export function Nav() {
         </li>
         <li>
           <NavLink
-            className={({ isActive }) => isActive && styles.active}
+            className={({ isActive }) => clsx({ [styles.active]: isActive })}
             to="/todos"
           >
             Todos
@@ -23,20 +26,45 @@ export function Nav() {
         </li>
         <li>
           <NavLink
-            className={({ isActive }) => isActive && styles.active}
-            to="/register"
+            className={({ isActive }) => clsx({ [styles.active]: isActive })}
+            to="/films"
           >
-            Register
+            Films
           </NavLink>
         </li>
-        <li>
-          <NavLink
-            className={({ isActive }) => isActive && styles.active}
-            to="/login"
-          >
-            Login
-          </NavLink>
-        </li>
+
+        {user && (
+          <li>
+            Hello {user.fName}!{' '}
+            <a href="#" onClick={() => logout()}>
+              Logout
+            </a>
+          </li>
+        )}
+        {!user && (
+          <>
+            <li>
+              <NavLink
+                className={({ isActive }) =>
+                  clsx({ [styles.active]: isActive })
+                }
+                to="/register"
+              >
+                Register
+              </NavLink>
+            </li>
+            <li>
+              <NavLink
+                className={({ isActive }) =>
+                  clsx({ [styles.active]: isActive })
+                }
+                to="/login"
+              >
+                Login
+              </NavLink>
+            </li>
+          </>
+        )}
       </menu>
     </nav>
   );
