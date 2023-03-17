@@ -36,7 +36,7 @@ export function FilmDetails() {
 
   return (
     <>
-      <h1>{film.title}</h1>
+      <h2>Details for {film.title}</h2>
       <Link to="edit">Edit this film</Link>
       <button onClick={handleDelete}>Delete this film</button>
     </>

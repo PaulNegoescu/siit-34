@@ -31,8 +31,6 @@ export function FilmList() {
   // if we have films we render our proper code
   return (
     <>
-      <h1>Films</h1>
-      <Link to="add">Add a Film</Link>
       {films.map((film) => (
         // We render a film card component, we specify the key prop so that react does not complain
         <FilmCard key={film.id} film={film} />

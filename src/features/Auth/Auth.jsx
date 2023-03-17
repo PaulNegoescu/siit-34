@@ -1,7 +1,7 @@
 import clsx from 'clsx';
 import { useState } from 'react';
 import { useLocation } from 'react-router-dom';
-import { GlobalMessage } from '../../components/GlobalMessage/GlobalMessage';
+import { Alert } from '../../components';
 import { useAuthContext } from './Auth.context';
 import styles from './Auth.module.css';
 
@@ -126,12 +126,12 @@ export function Auth() {
   return (
     <>
       <h1>{isLogin ? 'Login' : 'Register'}</h1>
-      <GlobalMessage
+      <Alert
         type={globalMessage.type}
         onMessageClosed={() => setGlobalMessage({ message: '', type: 'error' })}
       >
         {globalMessage.message}
-      </GlobalMessage>
+      </Alert>
       <form onSubmit={handleSubmit}>
         <p className={clsx({ [styles['has-error']]: errors.email })}>
           <label htmlFor="email">Email</label>

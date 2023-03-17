@@ -1,9 +1,9 @@
 import clsx from 'clsx';
 import { useEffect, useState } from 'react';
 import { IoWarning, IoCheckmarkSharp } from 'react-icons/io5';
-import styles from './GlobalMessage.module.css';
+import styles from './Alert.module.css';
 
-export function GlobalMessage({ children, type = 'success', onMessageClosed }) {
+export function Alert({ children, type = 'success', onMessageClosed }) {
   const [isShown, setIsShown] = useState(false);
   useEffect(() => {
     // Nu vrem sa ruleze setTimout decat daca are continut mesajul

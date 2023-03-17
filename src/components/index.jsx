@@ -1,3 +1,3 @@
-export { NotFound } from './NotFound/NotFound';
-export { Nav } from './Nav/Nav';
-export { GlobalMessage } from './GlobalMessage/GlobalMessage';
+export { Nav, CustomNavLink } from './Nav';
+export { Alert } from './Alert';
+export { VisitorLayout } from './Layouts';

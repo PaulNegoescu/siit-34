@@ -1,6 +1,6 @@
 import clsx from 'clsx';
-import { NavLink } from 'react-router-dom';
 import { useAuthContext } from '../../features/Auth/Auth.context';
+import { CustomNavLink } from './CustomNavLink';
 import styles from './Nav.module.css';
 
 export function Nav() {
@@ -9,28 +9,10 @@ export function Nav() {
     <nav>
       <menu>
         <li>
-          <NavLink
-            className={({ isActive }) => clsx({ [styles.active]: isActive })}
-            to="/"
-          >
-            Home
-          </NavLink>
+          <CustomNavLink to="/">Home</CustomNavLink>
         </li>
         <li>
-          <NavLink
-            className={({ isActive }) => clsx({ [styles.active]: isActive })}
-            to="/todos"
-          >
-            Todos
-          </NavLink>
-        </li>
-        <li>
-          <NavLink
-            className={({ isActive }) => clsx({ [styles.active]: isActive })}
-            to="/films"
-          >
-            Films
-          </NavLink>
+          <CustomNavLink to="/films">Films</CustomNavLink>
         </li>
 
         {user && (
@@ -44,24 +26,10 @@ export function Nav() {
         {!user && (
           <>
             <li>
-              <NavLink
-                className={({ isActive }) =>
-                  clsx({ [styles.active]: isActive })
-                }
-                to="/register"
-              >
-                Register
-              </NavLink>
+              <CustomNavLink to="/register">Register</CustomNavLink>
             </li>
             <li>
-              <NavLink
-                className={({ isActive }) =>
-                  clsx({ [styles.active]: isActive })
-                }
-                to="/login"
-              >
-                Login
-              </NavLink>
+              <CustomNavLink to="/login">Login</CustomNavLink>
             </li>
           </>
         )}
