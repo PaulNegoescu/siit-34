@@ -3,6 +3,9 @@ import { useParams } from 'react-router-dom';
 import { useAuthContext } from '../Auth/Auth.context';
 
 export function UpdateFilm() {
+  // We will use this state to store both the response from the server AND the state of the form inputs
+  // This means that the form inputs will have the "name" equal to the property name of the film object,
+  // this will help us automate some stuff
   const [film, setFilm] = useState(null);
   const { filmId } = useParams();
 
@@ -42,6 +45,7 @@ export function UpdateFilm() {
       <form onSubmit={handleSubmit}>
         <input
           type="text"
+          name="title"
           value={film.title}
           onChange={(e) => setFilm({ ...film, title: e.target.value })}
         />
