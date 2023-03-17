@@ -1,0 +1,22 @@
+.fieldset {
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+}
+
+.form p {
+  display: flex;
+  gap: 1rem;
+}
+
+.form > p > label {
+  flex: 0 0 100px;
+}
+
+.form > p > input,
+.form textarea {
+  flex: 0 0 300px;
+
+  border: 1px solid #333;
+  border-radius: 3px;
+  padding: 0.3rem 0.7rem;
+}

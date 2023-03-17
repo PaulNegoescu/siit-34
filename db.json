@@ -534,6 +534,43 @@
         35
       ],
       "id": 6
+    },
+    {
+      "title": "Test",
+      "opening_crawl": "sadas adsasd as",
+      "director": "Paul",
+      "poster": "https://th.bing.com/th/id/OIP.93k909uJ_pGiok4y21wfhQHaLR?pid=ImgDet&rs=1",
+      "producer": "Paul",
+      "release_date": "2021-03-07",
+      "characters": [
+        37,
+        1,
+        78,
+        82
+      ],
+      "species": [
+        1,
+        2,
+        3,
+        6,
+        11,
+        16
+      ],
+      "planets": [
+        2,
+        7,
+        17,
+        12
+      ],
+      "starships": [
+        1,
+        2,
+        3,
+        4,
+        5
+      ],
+      "userId": 1,
+      "id": 7
     }
   ],
   "planets": [

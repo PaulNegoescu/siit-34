@@ -1,4 +1,5 @@
 import { useEffect, useState } from 'react';
+import { Link } from 'react-router-dom';
 import { FilmCard } from './FilmCard';
 
 export function FilmList() {
@@ -31,6 +32,7 @@ export function FilmList() {
   return (
     <>
       <h1>Films</h1>
+      <Link to="add">Add a Film</Link>
       {films.map((film) => (
         // We render a film card component, we specify the key prop so that react does not complain
         <FilmCard key={film.id} film={film} />

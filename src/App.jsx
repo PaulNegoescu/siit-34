@@ -2,6 +2,7 @@ import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import { Nav, NotFound } from './components';
 
 import {
+  AddFilmForm,
   Auth,
   Counter,
   FilmDetails,
@@ -20,6 +21,7 @@ export function App() {
           <Route path="/" element={<Counter initialCount={3} />} />
           <Route path="/todos" element={<Todos />} />
           <Route path="/films" element={<FilmList />} />
+          <Route path="/films/add" element={<AddFilmForm />} />
           <Route path="/films/:filmId" element={<FilmDetails />} />
           <Route path="/films/:filmId/edit" element={<UpdateFilm />} />
 
