@@ -1,5 +1,6 @@
 import { Outlet, Route, Routes } from 'react-router-dom';
 import { CustomNavLink } from '../../components';
+import { AuthRequiredRoute } from '../Auth/AuthRequiredRoute';
 import { AddFilmForm } from './AddFilmForm';
 import { FilmCard } from './FilmCard';
 import { FilmDetails } from './FilmDetails';
@@ -17,9 +18,13 @@ export function FilmsLayout() {
       {/* These are the child routes */}
       <Routes>
         <Route path="/" element={<FilmList />} />
-        <Route path="add" element={<AddFilmForm />} />
         <Route path=":filmId" element={<FilmDetails />} />
-        <Route path=":filmId/edit" element={<UpdateFilm />} />
+        {/* Note that the following route does not add a segment (no path prop), it's a layout route, its purpose is 
+        to validate that the user has access to the child routes. */}
+        <Route element={<AuthRequiredRoute />}>
+          <Route path="add" element={<AddFilmForm />} />
+          <Route path=":filmId/edit" element={<UpdateFilm />} />
+        </Route>
       </Routes>
       {/* This is where the content of the child routes will be rendered */}
       <Outlet />

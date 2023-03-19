@@ -1,6 +1,6 @@
 import clsx from 'clsx';
 import { useState } from 'react';
-import { useLocation } from 'react-router-dom';
+import { Navigate, useLocation } from 'react-router-dom';
 import { Alert } from '../../components';
 import { useAuthContext } from './Auth.context';
 import styles from './Auth.module.css';
@@ -27,9 +27,18 @@ export function Auth() {
     type: 'error',
   });
 
-  const { login, token } = useAuthContext();
-  const { pathname } = useLocation();
+  const { login, user } = useAuthContext();
+  const { pathname, state } = useLocation();
   const isLogin = pathname === '/login';
+
+  // If the user has logged in successfully we redirect them from the login page
+  // to where they came from or the homepage if there was nothing in the state.
+  // state?.from means something like if there is state and it is not null then try
+  // to get the "from" property from state, this is called the elvis operator or optional chaining operator (MDN)
+  const from = state?.from ? state.from : '/';
+  if (user) {
+    return <Navigate to={from} />;
+  }
 
   function isFormValid() {
     let isValid = true;
