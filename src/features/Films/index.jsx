@@ -1,5 +1,6 @@
 import { Outlet, Route, Routes } from 'react-router-dom';
 import { CustomNavLink } from '../../components';
+import { useAuthContext } from '../Auth';
 import { AuthRequiredRoute } from '../Auth/AuthRequiredRoute';
 import { AddFilmForm } from './AddFilmForm';
 import { FilmCard } from './FilmCard';
@@ -11,10 +12,11 @@ export { FilmCard, FilmDetails, FilmList, UpdateFilm };
 export { AddFilmForm } from './AddFilmForm';
 
 export function FilmsLayout() {
+  const { user } = useAuthContext();
   return (
     <>
       <h1>Films</h1>
-      <CustomNavLink to="add">Add a new film</CustomNavLink>
+      {user && <CustomNavLink to="add">Add a new film</CustomNavLink>}
       {/* These are the child routes */}
       <Routes>
         <Route path="/" element={<FilmList />} />

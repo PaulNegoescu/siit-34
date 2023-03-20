@@ -37,8 +37,12 @@ export function FilmDetails() {
   return (
     <>
       <h2>Details for {film.title}</h2>
-      <Link to="edit">Edit this film</Link>
-      <button onClick={handleDelete}>Delete this film</button>
+      {token && (
+        <>
+          <Link to="edit">Edit this film</Link>
+          <button onClick={handleDelete}>Delete this film</button>
+        </>
+      )}
     </>
   );
 }
